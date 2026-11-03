@@ -27,7 +27,7 @@ export default function Home() {
   async function signInWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      // FIX 1: Redirect straight back to the root map page, not a dead callback URL
+      // Redirects securely back to the map instead of a broken callback page
       options: { redirectTo: `${location.origin}/` },
     })
   }
@@ -94,10 +94,9 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-      {/* FIX 2: Responsive Flex Container for Mobile UI */}
+      {/* Responsive Container: Stacks vertically on mobile, side-by-side on desktop */}
       <div className="absolute top-4 left-4 right-4 flex flex-col sm:flex-row justify-between gap-3 z-10 pointer-events-none">
         
-        {/* Filter Dropdown */}
         <div className="pointer-events-auto">
           <select 
             value={activeFilter}
@@ -111,7 +110,6 @@ export default function Home() {
           </select>
         </div>
 
-        {/* Auth / Add Spot Buttons */}
         <div className="pointer-events-auto flex justify-end">
           {session ? (
             (!isAddingMode && !newSpotCoords) && (
@@ -141,7 +139,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* The rest of the form overlays */}
       {isAddingMode && !newSpotCoords && (
         <div className="absolute top-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg z-10 font-bold shadow-lg animate-pulse whitespace-nowrap text-sm sm:text-base">
           Click anywhere to place a spot
