@@ -82,7 +82,7 @@ export default function Home() {
   }
 
   return (
-    <main className="relative w-screen h-screen overflow-hidden font-sans bg-gray-50">
+    <main style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#f9fafb', fontFamily: 'sans-serif' }}>
       
       <ParkingMap 
         isAddingMode={isAddingMode} 
@@ -93,15 +93,15 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-      {/* Bulletproof Block Layout */}
-      <div className="absolute top-4 left-4 right-4 z-10 pointer-events-none">
+      {/* HARDCODED INLINE STYLES - Unbreakable Flex Column */}
+      <div style={{ position: 'absolute', top: '16px', left: '16px', right: '16px', zIndex: 10, pointerEvents: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         
-        {/* Layer 1: Dropdown */}
-        <div className="pointer-events-auto w-full mb-3 shadow-lg rounded-lg">
+        {/* Dropdown Container */}
+        <div style={{ pointerEvents: 'auto', width: '100%' }}>
           <select 
             value={activeFilter}
             onChange={e => setActiveFilter(e.target.value)}
-            className="w-full px-4 py-3 bg-white text-gray-900 rounded-lg font-bold border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none pr-10 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23111827%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-no-repeat bg-[position:right_16px_center]"
+            style={{ width: '100%', padding: '12px 16px', backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #e5e7eb', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', cursor: 'pointer' }}
           >
             <option value="All">Show All Spots</option>
             <option value="Motorcycle Dedicated">Motorcycle Dedicated</option>
@@ -110,20 +110,20 @@ export default function Home() {
           </select>
         </div>
 
-        {/* Layer 2: Buttons */}
-        <div className="pointer-events-auto flex justify-end gap-2 w-full">
+        {/* Buttons Container */}
+        <div style={{ pointerEvents: 'auto', display: 'flex', justifyContent: 'flex-end', gap: '8px', width: '100%' }}>
           {session ? (
             (!isAddingMode && !newSpotCoords) && (
               <>
                 <button 
                   onClick={() => supabase.auth.signOut()} 
-                  className="px-3 py-2.5 bg-white text-gray-700 rounded-lg font-bold border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors text-sm sm:text-base flex-1 sm:flex-none"
+                  style={{ padding: '10px 16px', backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
                 >
                   Sign Out
                 </button>
                 <button 
                   onClick={() => setIsAddingMode(true)} 
-                  className="px-4 py-2.5 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors text-sm sm:text-base whitespace-nowrap flex-1 sm:flex-none"
+                  style={{ padding: '10px 16px', backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                 >
                   + Add Spot
                 </button>
@@ -132,7 +132,7 @@ export default function Home() {
           ) : (
             <button 
               onClick={signInWithGoogle} 
-              className="px-5 py-3 w-full sm:w-auto bg-white text-gray-900 rounded-lg font-extrabold border border-gray-200 shadow-lg hover:bg-gray-50 hover:scale-105 transition-all text-sm sm:text-base whitespace-nowrap"
+              style={{ padding: '12px 20px', width: '100%', backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: '800', border: '1px solid #e5e7eb', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
             >
               Sign in to Add Spots
             </button>
@@ -141,22 +141,22 @@ export default function Home() {
       </div>
 
       {isAddingMode && !newSpotCoords && (
-        <div className="absolute top-32 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg z-10 font-bold shadow-lg animate-pulse whitespace-nowrap text-sm sm:text-base">
+        <div style={{ position: 'absolute', top: '120px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#111827', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 10, fontWeight: 'bold', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}>
           Click anywhere to place a spot
         </div>
       )}
 
       {newSpotCoords && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-xl z-20 w-80 shadow-2xl border border-gray-100">
-          <h2 className="mt-0 mb-5 text-gray-900 text-xl font-extrabold">Add Parking Spot</h2>
-          <form onSubmit={handleSaveSpot} className="flex flex-col gap-4">
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '24px', borderRadius: '12px', zIndex: 20, width: '320px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', border: '1px solid #f3f4f6' }}>
+          <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#111827', fontSize: '1.25rem', fontWeight: '800' }}>Add Parking Spot</h2>
+          <form onSubmit={handleSaveSpot} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Spot Type</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <label style={{ fontSize: '0.875rem', fontWeight: 'bold', color: '#374151' }}>Spot Type</label>
               <select 
                 value={spotType} 
                 onChange={e => setSpotType(e.target.value)} 
-                className="p-2.5 rounded-lg border border-gray-300 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db' }}
               >
                 <option>Motorcycle Dedicated</option>
                 <option>Free Street Parking</option>
@@ -164,12 +164,12 @@ export default function Home() {
               </select>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Time Limit</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <label style={{ fontSize: '0.875rem', fontWeight: 'bold', color: '#374151' }}>Time Limit</label>
               <select 
                 value={timeLimit} 
                 onChange={e => setTimeLimit(e.target.value)} 
-                className="p-2.5 rounded-lg border border-gray-300 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db' }}
               >
                 <option>Unlimited</option>
                 <option>30 mins</option>
@@ -183,29 +183,19 @@ export default function Home() {
               </select>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Add a Photo (Optional)</label>
-              <input 
-                type="file" 
-                accept="image/*"
-                onChange={e => setFile(e.target.files ? e.target.files[0] : null)}
-                className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
-              />
-            </div>
-
-            <div className="flex gap-3 mt-2">
+            <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
               <button 
                 type="button" 
                 onClick={() => { setNewSpotCoords(null); setIsAddingMode(false); setFile(null) }} 
-                className="flex-1 p-2.5 bg-gray-100 text-gray-700 rounded-lg font-bold hover:bg-gray-200 transition-colors"
                 disabled={isUploading}
+                style={{ flex: 1, padding: '10px', backgroundColor: '#f3f4f6', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}
               >
                 Cancel
               </button>
               <button 
                 type="submit" 
                 disabled={isUploading}
-                className="flex-1 p-2.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ flex: 1, padding: '10px', backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}
               >
                 {isUploading ? 'Saving...' : 'Save Spot'}
               </button>
