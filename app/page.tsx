@@ -93,13 +93,15 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-      <div className="absolute top-4 left-4 right-4 flex flex-col sm:flex-row justify-between gap-3 z-10 pointer-events-none">
+      {/* Bulletproof Block Layout */}
+      <div className="absolute top-4 left-4 right-4 z-10 pointer-events-none">
         
-        <div className="pointer-events-auto">
+        {/* Layer 1: Dropdown */}
+        <div className="pointer-events-auto w-full mb-3 shadow-lg rounded-lg">
           <select 
             value={activeFilter}
             onChange={e => setActiveFilter(e.target.value)}
-            className="w-full sm:w-auto px-4 py-3 bg-white text-gray-900 rounded-lg font-bold border border-gray-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none pr-10 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23111827%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-no-repeat bg-[position:right_16px_center]"
+            className="w-full px-4 py-3 bg-white text-gray-900 rounded-lg font-bold border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer appearance-none pr-10 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23111827%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-no-repeat bg-[position:right_16px_center]"
           >
             <option value="All">Show All Spots</option>
             <option value="Motorcycle Dedicated">Motorcycle Dedicated</option>
@@ -108,28 +110,29 @@ export default function Home() {
           </select>
         </div>
 
-        <div className="pointer-events-auto flex justify-end">
+        {/* Layer 2: Buttons */}
+        <div className="pointer-events-auto flex justify-end gap-2 w-full">
           {session ? (
             (!isAddingMode && !newSpotCoords) && (
-              <div className="flex gap-2">
+              <>
                 <button 
                   onClick={() => supabase.auth.signOut()} 
-                  className="px-3 py-2.5 bg-white text-gray-700 rounded-lg font-bold border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors text-sm sm:text-base"
+                  className="px-3 py-2.5 bg-white text-gray-700 rounded-lg font-bold border border-gray-300 hover:bg-gray-50 shadow-sm transition-colors text-sm sm:text-base flex-1 sm:flex-none"
                 >
                   Sign Out
                 </button>
                 <button 
                   onClick={() => setIsAddingMode(true)} 
-                  className="px-4 py-2.5 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors text-sm sm:text-base whitespace-nowrap"
+                  className="px-4 py-2.5 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors text-sm sm:text-base whitespace-nowrap flex-1 sm:flex-none"
                 >
                   + Add Spot
                 </button>
-              </div>
+              </>
             )
           ) : (
             <button 
               onClick={signInWithGoogle} 
-              className="px-5 py-3 bg-white text-gray-900 rounded-lg font-extrabold border border-gray-200 shadow-lg hover:bg-gray-50 hover:scale-105 transition-all text-sm sm:text-base whitespace-nowrap"
+              className="px-5 py-3 w-full sm:w-auto bg-white text-gray-900 rounded-lg font-extrabold border border-gray-200 shadow-lg hover:bg-gray-50 hover:scale-105 transition-all text-sm sm:text-base whitespace-nowrap"
             >
               Sign in to Add Spots
             </button>
@@ -138,7 +141,7 @@ export default function Home() {
       </div>
 
       {isAddingMode && !newSpotCoords && (
-        <div className="absolute top-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg z-10 font-bold shadow-lg animate-pulse whitespace-nowrap text-sm sm:text-base">
+        <div className="absolute top-32 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg z-10 font-bold shadow-lg animate-pulse whitespace-nowrap text-sm sm:text-base">
           Click anywhere to place a spot
         </div>
       )}
