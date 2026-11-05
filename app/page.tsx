@@ -27,7 +27,6 @@ export default function Home() {
   async function signInWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      // Redirects securely back to the map instead of a broken callback page
       options: { redirectTo: `${location.origin}/` },
     })
   }
@@ -94,7 +93,6 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-      {/* Responsive Container: Stacks vertically on mobile, side-by-side on desktop */}
       <div className="absolute top-4 left-4 right-4 flex flex-col sm:flex-row justify-between gap-3 z-10 pointer-events-none">
         
         <div className="pointer-events-auto">
