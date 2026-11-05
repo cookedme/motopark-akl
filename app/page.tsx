@@ -93,10 +93,10 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-      {/* HARDCODED INLINE STYLES - Unbreakable Flex Column */}
+      {/* MASTER CONTAINER: Everything stacks vertically with gap */}
       <div style={{ position: 'absolute', top: '16px', left: '16px', right: '16px', zIndex: 10, pointerEvents: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         
-        {/* Dropdown Container */}
+        {/* Dropdown (Row 1) */}
         <div style={{ pointerEvents: 'auto', width: '100%' }}>
           <select 
             value={activeFilter}
@@ -110,22 +110,22 @@ export default function Home() {
           </select>
         </div>
 
-        {/* Buttons Container */}
-        <div style={{ pointerEvents: 'auto', display: 'flex', justifyContent: 'flex-end', gap: '8px', width: '100%' }}>
+        {/* Buttons (Row 2 & 3): Forced to stack vertically taking 100% width */}
+        <div style={{ pointerEvents: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
           {session ? (
             (!isAddingMode && !newSpotCoords) && (
               <>
                 <button 
-                  onClick={() => supabase.auth.signOut()} 
-                  style={{ padding: '10px 16px', backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
-                >
-                  Sign Out
-                </button>
-                <button 
                   onClick={() => setIsAddingMode(true)} 
-                  style={{ padding: '10px 16px', backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                  style={{ width: '100%', padding: '12px 16px', backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                 >
                   + Add Spot
+                </button>
+                <button 
+                  onClick={() => supabase.auth.signOut()} 
+                  style={{ width: '100%', padding: '12px 16px', backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
+                >
+                  Sign Out
                 </button>
               </>
             )
@@ -141,7 +141,7 @@ export default function Home() {
       </div>
 
       {isAddingMode && !newSpotCoords && (
-        <div style={{ position: 'absolute', top: '120px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#111827', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 10, fontWeight: 'bold', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}>
+        <div style={{ position: 'absolute', top: '180px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#111827', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 10, fontWeight: 'bold', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}>
           Click anywhere to place a spot
         </div>
       )}
