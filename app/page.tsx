@@ -93,52 +93,57 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-      {/* MASTER CONTAINER: Everything stacks vertically with gap */}
-      <div style={{ position: 'absolute', top: '16px', left: '16px', right: '16px', zIndex: 10, pointerEvents: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        
-        {/* Dropdown (Row 1) */}
-        <div style={{ pointerEvents: 'auto', width: '100%' }}>
-          <select 
-            value={activeFilter}
-            onChange={e => setActiveFilter(e.target.value)}
-            style={{ width: '100%', padding: '12px 16px', backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #e5e7eb', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', cursor: 'pointer' }}
-          >
-            <option value="All">Show All Spots</option>
-            <option value="Motorcycle Dedicated">Motorcycle Dedicated</option>
-            <option value="Free Street Parking">Free Street Parking</option>
-            <option value="Paid Parking (Exempt)">Paid Parking (Exempt)</option>
-          </select>
-        </div>
+{/* MASTER CONTAINER */}
+<div style={{
+  position: 'absolute', top: '16px', left: '16px', right: '16px',
+  zIndex: 1000, pointerEvents: 'none',
+  display: 'flex', flexDirection: 'column', gap: '12px',
+  boxSizing: 'border-box'
+}}>
+  <select
+    value={activeFilter}
+    onChange={e => setActiveFilter(e.target.value)}
+    style={{
+      pointerEvents: 'auto', boxSizing: 'border-box', width: '100%',
+      height: '48px', flexShrink: 0, padding: '0 16px',
+      backgroundColor: 'white', color: '#111827', borderRadius: '8px',
+      fontWeight: 'bold', border: '1px solid #e5e7eb',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', cursor: 'pointer',
+      fontSize: '16px'
+    }}
+  >
+    <option value="All">Show All Spots</option>
+    <option value="Motorcycle Dedicated">Motorcycle Dedicated</option>
+    <option value="Free Street Parking">Free Street Parking</option>
+    <option value="Paid Parking (Exempt)">Paid Parking (Exempt)</option>
+  </select>
 
-        {/* Buttons (Row 2 & 3): Forced to stack vertically taking 100% width */}
-        <div style={{ pointerEvents: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
-          {session ? (
-            (!isAddingMode && !newSpotCoords) && (
-              <>
-                <button 
-                  onClick={() => setIsAddingMode(true)} 
-                  style={{ width: '100%', padding: '12px 16px', backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                >
-                  + Add Spot
-                </button>
-                <button 
-                  onClick={() => supabase.auth.signOut()} 
-                  style={{ width: '100%', padding: '12px 16px', backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
-                >
-                  Sign Out
-                </button>
-              </>
-            )
-          ) : (
-            <button 
-              onClick={signInWithGoogle} 
-              style={{ padding: '12px 20px', width: '100%', backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: '800', border: '1px solid #e5e7eb', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-            >
-              Sign in to Add Spots
-            </button>
-          )}
-        </div>
-      </div>
+  {session ? (
+    (!isAddingMode && !newSpotCoords) && (
+      <>
+        <button
+          onClick={() => setIsAddingMode(true)}
+          style={{ pointerEvents: 'auto', boxSizing: 'border-box', width: '100%', height: '48px', flexShrink: 0, backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+        >
+          + Add Spot
+        </button>
+        <button
+          onClick={() => supabase.auth.signOut()}
+          style={{ pointerEvents: 'auto', boxSizing: 'border-box', width: '100%', height: '48px', flexShrink: 0, backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
+        >
+          Sign Out
+        </button>
+      </>
+    )
+  ) : (
+    <button
+      onClick={signInWithGoogle}
+      style={{ pointerEvents: 'auto', boxSizing: 'border-box', width: '100%', height: '48px', flexShrink: 0, backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: '800', border: '1px solid #e5e7eb', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+    >
+      Sign in to Add Spots
+    </button>
+  )}
+</div>
 
       {isAddingMode && !newSpotCoords && (
         <div style={{ position: 'absolute', top: '180px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#111827', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 10, fontWeight: 'bold', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}>
