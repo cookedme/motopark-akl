@@ -93,66 +93,59 @@ export default function Home() {
         activeFilter={activeFilter}
       />
 
-{/* MASTER CONTAINER */}
-<div style={{
-  position: 'absolute', top: '16px', left: '16px', right: '16px',
-  zIndex: 1000, pointerEvents: 'none',
-  display: 'flex', flexDirection: 'column', gap: '12px',
-  boxSizing: 'border-box'
-}}>
-  <select
-    value={activeFilter}
-    onChange={e => setActiveFilter(e.target.value)}
-    style={{
-      pointerEvents: 'auto', boxSizing: 'border-box', width: '100%',
-      height: '48px', flexShrink: 0, padding: '0 16px',
-      backgroundColor: 'white', color: '#111827', borderRadius: '8px',
-      fontWeight: 'bold', border: '1px solid #e5e7eb',
-      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', cursor: 'pointer',
-      fontSize: '16px'
-    }}
-  >
-    <option value="All">Show All Spots</option>
-    <option value="Motorcycle Dedicated">Motorcycle Dedicated</option>
-    <option value="Free Street Parking">Free Street Parking</option>
-    <option value="Paid Parking (Exempt)">Paid Parking (Exempt)</option>
-  </select>
+      {/* CONTROLS: each one pinned to its own slot so nothing can push anything else around */}
+      <select
+        value={activeFilter}
+        onChange={e => setActiveFilter(e.target.value)}
+        style={{
+          position: 'absolute', top: '16px', left: '16px',
+          zIndex: 1000, boxSizing: 'border-box', width: 'calc(100% - 32px)',
+          height: '48px', margin: 0, padding: '0 16px', fontSize: '16px',
+          backgroundColor: 'white', color: '#111827', borderRadius: '8px',
+          fontWeight: 'bold', border: '1px solid #e5e7eb',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', cursor: 'pointer'
+        }}
+      >
+        <option value="All">Show All Spots</option>
+        <option value="Motorcycle Dedicated">Motorcycle Dedicated</option>
+        <option value="Free Street Parking">Free Street Parking</option>
+        <option value="Paid Parking (Exempt)">Paid Parking (Exempt)</option>
+      </select>
 
-  {session ? (
-    (!isAddingMode && !newSpotCoords) && (
-      <>
+      {session ? (
+        (!isAddingMode && !newSpotCoords) && (
+          <>
+            <button
+              onClick={() => setIsAddingMode(true)}
+              style={{ position: 'absolute', top: '76px', left: '16px', zIndex: 1000, boxSizing: 'border-box', width: 'calc(100% - 32px)', height: '48px', margin: 0, backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+            >
+              + Add Spot
+            </button>
+            <button
+              onClick={() => supabase.auth.signOut()}
+              style={{ position: 'absolute', top: '136px', left: '16px', zIndex: 1000, boxSizing: 'border-box', width: 'calc(100% - 32px)', height: '48px', margin: 0, backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
+            >
+              Sign Out
+            </button>
+          </>
+        )
+      ) : (
         <button
-          onClick={() => setIsAddingMode(true)}
-          style={{ pointerEvents: 'auto', boxSizing: 'border-box', width: '100%', height: '48px', flexShrink: 0, backgroundColor: '#2563eb', color: 'white', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+          onClick={signInWithGoogle}
+          style={{ position: 'absolute', top: '76px', left: '16px', zIndex: 1000, boxSizing: 'border-box', width: 'calc(100% - 32px)', height: '48px', margin: 0, backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: '800', border: '1px solid #e5e7eb', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
         >
-          + Add Spot
+          Sign in to Add Spots
         </button>
-        <button
-          onClick={() => supabase.auth.signOut()}
-          style={{ pointerEvents: 'auto', boxSizing: 'border-box', width: '100%', height: '48px', flexShrink: 0, backgroundColor: 'white', color: '#374151', borderRadius: '8px', fontWeight: 'bold', border: '1px solid #d1d5db', cursor: 'pointer' }}
-        >
-          Sign Out
-        </button>
-      </>
-    )
-  ) : (
-    <button
-      onClick={signInWithGoogle}
-      style={{ pointerEvents: 'auto', boxSizing: 'border-box', width: '100%', height: '48px', flexShrink: 0, backgroundColor: 'white', color: '#111827', borderRadius: '8px', fontWeight: '800', border: '1px solid #e5e7eb', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-    >
-      Sign in to Add Spots
-    </button>
-  )}
-</div>
+      )}
 
       {isAddingMode && !newSpotCoords && (
-        <div style={{ position: 'absolute', top: '180px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#111827', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 10, fontWeight: 'bold', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}>
+        <div style={{ position: 'absolute', top: '76px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#111827', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 1000, fontWeight: 'bold', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', whiteSpace: 'nowrap' }}>
           Click anywhere to place a spot
         </div>
       )}
 
       {newSpotCoords && (
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '24px', borderRadius: '12px', zIndex: 20, width: '320px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', border: '1px solid #f3f4f6' }}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '24px', borderRadius: '12px', zIndex: 1001, width: '320px', maxWidth: 'calc(100% - 32px)', boxSizing: 'border-box', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', border: '1px solid #f3f4f6' }}>
           <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#111827', fontSize: '1.25rem', fontWeight: '800' }}>Add Parking Spot</h2>
           <form onSubmit={handleSaveSpot} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
@@ -161,7 +154,7 @@ export default function Home() {
               <select 
                 value={spotType} 
                 onChange={e => setSpotType(e.target.value)} 
-                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db' }}
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '16px' }}
               >
                 <option>Motorcycle Dedicated</option>
                 <option>Free Street Parking</option>
@@ -174,7 +167,7 @@ export default function Home() {
               <select 
                 value={timeLimit} 
                 onChange={e => setTimeLimit(e.target.value)} 
-                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db' }}
+                style={{ padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '16px' }}
               >
                 <option>Unlimited</option>
                 <option>30 mins</option>
